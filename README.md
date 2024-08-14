@@ -1,0 +1,2 @@
+# librelib
+Freestanding C library
