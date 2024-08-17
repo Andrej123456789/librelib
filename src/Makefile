@@ -2,8 +2,8 @@
 INCLUDE_DIR ?= "../include"
 
 # Compiler and compiler flags
-CC = gcc
-CFLAGS = -fno-stack-protector -ffreestanding -Wall -Wextra -g -I$(INCLUDE_DIR)
+CC = clang
+CFLAGS = -target i386-pc-none-elf -fno-stack-protector -ffreestanding -Wall -Wextra -g -I$(INCLUDE_DIR)
 
 # Folder for object libraries and compiled library
 OBJ ?= ../build
@@ -11,10 +11,10 @@ OBJDIR = $(OBJ)/objects
 BIN = $(OBJ)/librelib.a
 
 # Source files
-SRC_BUILTIN = $(wildcard routines/builtin/*.c)
+SRC_BUILTIN = $(wildcard builtin/routines/*.c)
 SRC_STD = $(wildcard std/*.c)
 
-OBJS = $(addprefix $(OBJDIR)/, $(patsubst routines/builtin/%.c, %.o, $(SRC_BUILTIN)))
+OBJS = $(addprefix $(OBJDIR)/, $(patsubst builtin/routines/%.c, %.o, $(SRC_BUILTIN)))
 OBJS += $(addprefix $(OBJDIR)/, $(patsubst std/%.c, %.o, $(SRC_STD)))
 
 # Path where to install library
@@ -36,7 +36,7 @@ $(BINFOLDER):
 $(BIN): $(OBJS)
 	ar -r $(BIN) $^
 
-$(OBJDIR)/%.o: routines/builtin/%.c
+$(OBJDIR)/%.o: builtin/routines/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: std/%.c

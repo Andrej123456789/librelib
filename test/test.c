@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <librelib/include.h>
-
-int main()
+int _start()
 {
-    printf("%d\n", librelib());
+    long long a = -5;
+    long long b = 2;
+
+    long long result = a << b;
     return 0;
 }

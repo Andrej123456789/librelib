@@ -1,12 +1,19 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pedantic -g -llibrelib
+CC = clang
+CFLAGS = -target i386-pc-none-elf -fno-stack-protector -ffreestanding -nostdlib -g -llibrelib
 
-OBJDIR = objects
+OBJ = obj
+
+OBJDIR = $(OBJ)/objects
 OBJS = $(addprefix $(OBJDIR)/, $(patsubst %.c, %.o, $(wildcard *.c)))
 
-BIN = test
+BINFOLDER = $(OBJ)
+BIN = $(BINFOLDER)/test
 
-all : $(OBJDIR) $(BIN)
+.PHONY: all
+all : $(OBJ) $(OBJDIR) $(BIN)
+
+$(OBJ):
+	mkdir $(OBJ)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
@@ -17,8 +24,10 @@ $(BIN) : $(OBJS)
 $(OBJDIR)/%.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+.PHONY: run
 run:
 	@./$(BIN)
 
+.PHONY: clean
 clean:
-	rm -rf $(wildcard *.o) objects test
+	rm -rf $(OBJ)
