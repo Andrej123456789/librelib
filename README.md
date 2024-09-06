@@ -1,5 +1,5 @@
 # librelib
-Freestanding C library
+C runtime library
 
 ## TODO:
 ### Left bit shifting
